@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flex, Layout, Menu, theme } from 'antd';
+import { Flex, Layout, Menu } from 'antd';
 import { fetchLatestMovies } from '../Functions.ts';
 import MovieCard from '../components/MovieCard.tsx';
 
@@ -15,6 +15,7 @@ const Home = () => {
     const [page, setPage] = React.useState(1)
     React.useEffect(() => {
         fetchLatestMovies(page).then((movies) => setLatestMovies(movies))
+        setPage(1)
     }, [])
 
     return (
