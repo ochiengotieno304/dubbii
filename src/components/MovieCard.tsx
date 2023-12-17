@@ -25,7 +25,7 @@ const MovieCard = ({ movieTitle, movieOverview, moviePosterPath, onClick, movieI
             onClick={onClick}
 
         >
-            <Meta title={movieTitle} description={movieOverview.slice(0, 100) + '...'} />
+            <Meta title={movieTitle} description={movieOverview.substring(0, 100) + '...'} />
         </Card>
     );
 }

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Iframe from "react-iframe";
 import BaseLayout from "./BaseLayout";
 import { fetchMovieDetails } from "../Functions";
-import moment from "moment";
+import MovieCard from "./MovieCard";
 
 const MoviePage = () => {
   const { id } = useParams<{ id: string }>();
@@ -39,61 +39,18 @@ const MoviePage = () => {
         <>
           <Iframe
             url={`https://vidsrc.me/embed/${id}`}
-            position="relative"
-            display="block"
-            width="640px"
-            height="320px"
+            width={'1000'}
+            height={'500'}
+            allow="accelerometer;
+            autoplay;
+            clipboard-write;
+            encrypted-media;
+            gyroscope;
+            picture-in-picture full"
           />
 
-          {movieDetails.title}
-          <br />
-          {movieDetails.overview}
-          <br />
-          {movieDetails.poster}
-          <br />
-          {movieDetails.backdrop}
-          <br />
-          {movieDetails.rating}
-          <br />
-          {moment(movieDetails.release).format('MMMM Do YYYY')}
-          <br />
-          {movieDetails.production.map((company: any) => {
-            return (
-              <>
-                {company?.name}
-                <br />
-              </>
-            );
-          })}
-          {movieDetails.genres.map((genre: any) => {
-            return (
-              <>
-                {genre?.name}
-                <br />
-              </>
-            );
-          })}
-          {movieDetails.country.map((country: any) => {
-            return (
-              <>
-                {country?.name}
-                <br />
-              </>
-            );
-          })}
-          {movieDetails.languages.map((language: any) => {
-            return (
-              <>
-                {language?.name}
-                <br />
-              </>
-            );
-          })}
+          <MovieCard movieData={movieDetails} />
         </>
-
-
-
-
       )}
     </BaseLayout>
   );
