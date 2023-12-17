@@ -11,8 +11,9 @@ const Home = () => {
   const [page, setPage] = React.useState(1);
   const navigate = useNavigate();
 
-  const onClick = (movieId: string) => {
-    navigate(`/movie/${movieId}`);
+  const onClick = (movieId: string, movieTitle: string) => {
+    const movieTtl = movieTitle.replace(/\s+/g, '-').toLowerCase();
+    navigate(`/movie/${movieId}/${movieTtl}`);
   };
 
   React.useEffect(() => {
@@ -33,7 +34,7 @@ const Home = () => {
             moviePosterPath={movie.poster_path}
             onClick={() => {
               console.log('clicked')
-              onClick(movie.id)
+              onClick(movie.id, movie.title)
             }
             }
           />

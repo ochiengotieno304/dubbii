@@ -9,7 +9,7 @@ const App: React.FC = () => {
     createRoutesFromElements(
       <>
         <Route path="/" element={<Home />} />
-        <Route path="/movie/:id" element={<MoviePage />} />
+        <Route path="/movie/:id/:name" element={<MoviePage />} />
         <Route path="*" element={<ErrorPage />} />
       </>
     )
