@@ -7,10 +7,11 @@ import MoviePage from './pages/MoviePage.tsx';
 const App: React.FC = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<Home />} >
+      <>
+        <Route path="/" element={<Home />} />
         <Route path="/movie/:id" element={<MoviePage />} />
         <Route path="*" element={<ErrorPage />} />
-      </Route>
+      </>
     )
   )
 

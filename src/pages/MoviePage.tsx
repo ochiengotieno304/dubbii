@@ -1,29 +1,102 @@
 import { useParams } from "react-router-dom";
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Iframe from "react-iframe";
-// import VideoPlayer from "../components/VideoPlayer";
-
-
+import BaseLayout from "./BaseLayout";
+import { fetchMovieDetails } from "../Functions";
+import moment from "moment";
 
 const MoviePage = () => {
-  // const movieId = useParams();
   const { id } = useParams<{ id: string }>();
-  const [movieId, setMovieId] = React.useState<any>(466420);
+  const [movieDetails, setMovieDetails] = useState<any>(null);
 
-  useEffect(() => { setMovieId(id) }, [id]);
+  useEffect(() => {
+    if (id) {
+      fetchMovieDetails(id)
+        .then((response: any) => {
+          const { genres, title, poster_path, backdrop_path, production_companies, production_countries, release_date, spoken_languages, vote_average, adult, overview } = response;
+          const moviedata = {
+            genres,
+            title,
+            overview,
+            poster: poster_path,
+            backdrop: backdrop_path,
+            production: production_companies,
+            country: production_countries,
+            release: release_date,
+            languages: spoken_languages,
+            rating: vote_average,
+            adult
+          };
+          setMovieDetails(moviedata);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [id]);
 
   return (
-    <div>
-      <h1>Movie Page</h1>
-      {/* <VideoPlayer videoUrl={`https://vidsrc.to/embed/movie/${movie}`} /> */}
+    <BaseLayout position="absolute">
+      {movieDetails && (
+        <>
+          <Iframe
+            url={`https://vidsrc.me/embed/${id}`}
+            position="relative"
+            display="block"
+            width="640px"
+            height="320px"
+          />
 
-      <Iframe url={`https://vidsrc.me/embed/${movieId}`}
-            position="absolute"
-            width="60%"
-            height="60%"/>
-    </div>
+          {movieDetails.title}
+          <br />
+          {movieDetails.overview}
+          <br />
+          {movieDetails.poster}
+          <br />
+          {movieDetails.backdrop}
+          <br />
+          {movieDetails.rating}
+          <br />
+          {moment(movieDetails.release).format('MMMM Do YYYY')}
+          <br />
+          {movieDetails.production.map((company: any) => {
+            return (
+              <>
+                {company?.name}
+                <br />
+              </>
+            );
+          })}
+          {movieDetails.genres.map((genre: any) => {
+            return (
+              <>
+                {genre?.name}
+                <br />
+              </>
+            );
+          })}
+          {movieDetails.country.map((country: any) => {
+            return (
+              <>
+                {country?.name}
+                <br />
+              </>
+            );
+          })}
+          {movieDetails.languages.map((language: any) => {
+            return (
+              <>
+                {language?.name}
+                <br />
+              </>
+            );
+          })}
+        </>
+
+
+
+
+      )}
+    </BaseLayout>
   );
 }
 
 export default MoviePage;
-
