@@ -1,4 +1,6 @@
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, MenuProps } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const { Header, Content, Footer } = Layout;
 const items = [
@@ -10,17 +12,37 @@ const items = [
   {
     key: '2',
     label: 'Tv Shows',
-    url: '/tv',
+    url: '/',
   },
   {
     key: '3',
     label: 'Top IMDB',
-    url: '/imdb',
+    url: '/',
   },
 
 ]
 
-const BaseLayout = (props: any) => {
+
+interface BaseLayoutProps {
+  children: React.ReactNode;
+}
+
+const BaseLayout = (props: BaseLayoutProps) => {
+  const navigate = useNavigate()
+  const [current, setCurrent] = useState('1');
+  const [path, setPath] = useState(window.location.pathname)
+
+  useEffect(() => {
+    const selectedItem = items.find(item => item.key === current);
+    setPath(selectedItem?.url ?? '/')
+    console.log('current', path)
+  }, [current, path]);
+
+  const onClick: MenuProps['onClick'] = (e) => {
+    console.log('click ', e);
+    setCurrent(e.key);
+    navigate(path)
+  };
   return (
     <Layout>
       <Header
@@ -34,6 +56,8 @@ const BaseLayout = (props: any) => {
         }}
       >
         <Menu
+          onClick={onClick}
+          selectedKeys={[current]}
           theme="dark"
           mode="horizontal"
           defaultSelectedKeys={['2']}

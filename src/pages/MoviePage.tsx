@@ -34,7 +34,7 @@ const MoviePage = () => {
   }, [id]);
 
   return (
-    <BaseLayout position="absolute">
+    <BaseLayout>
       {movieDetails && (
         <>
           <Iframe
