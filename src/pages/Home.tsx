@@ -4,6 +4,7 @@ import { fetchLatestMovies } from '../Functions.ts';
 import MovieCard from '../components/MovieCard.tsx';
 import { useNavigate } from 'react-router-dom';
 import BaseLayout from './BaseLayout.tsx';
+import { HStack, SimpleGrid } from '@chakra-ui/react';
 
 
 const Home = () => {
@@ -24,7 +25,7 @@ const Home = () => {
   return (
     <BaseLayout>
 
-      <Flex gap={'large'} wrap='wrap'>
+      <SimpleGrid spacing={4} templateColumns='repeat(auto-fill, minmax(200px, 1fr))'>
         {latestMovies.map((movie: any) => (
           <MovieCard
             key={movie.id}
@@ -39,7 +40,8 @@ const Home = () => {
             }
           />
         ))}
-      </Flex>
+      </SimpleGrid>
+
     </BaseLayout>
 
   );

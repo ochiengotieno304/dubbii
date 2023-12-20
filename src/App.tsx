@@ -3,6 +3,7 @@ import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } 
 import ErrorPage from './pages/ErrorPage.tsx';
 import Home from './pages/Home.tsx';
 import MoviePage from './pages/MoviePage.tsx';
+import { ChakraProvider } from '@chakra-ui/react'
 
 const App: React.FC = () => {
   const router = createBrowserRouter(
@@ -16,7 +17,9 @@ const App: React.FC = () => {
   )
 
   return (
-    <RouterProvider router={router} />
+    <ChakraProvider>
+      <RouterProvider router={router} />
+    </ChakraProvider>
   );
 };
 
