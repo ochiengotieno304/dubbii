@@ -1,14 +1,23 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Box, Container } from "@chakra-ui/react";
+import { Box, Container, SimpleGrid, Divider, Heading } from "@chakra-ui/react";
 import Iframe from "react-iframe";
 import BaseLayout from "./BaseLayout";
-import { fetchMovieDetails } from "../Functions";
-import MovieCardDetails from "./MovieCardrDetails";
+import { fetchMovieDetails, fetchRecommendedMovies } from "../Functions";
+import MovieCardDetails from "./MovieCardDetails";
+import MovieCard from "../components/MovieCard";
+import { useNavigate } from 'react-router-dom';
 
 const MoviePage = () => {
   const { id } = useParams<{ id: string }>();
   const [movieDetails, setMovieDetails] = useState<any>(null);
+  const [recommendedMovies, setRecommendedMovies] = useState<any>([]);
+  const navigate = useNavigate();
+
+  const onClick = (movieId: string, movieTitle: string) => {
+    const movieTtl = movieTitle.replace(/\s+/g, '-').toLowerCase();
+    navigate(`/movie/${movieId}/${movieTtl}`);
+  };
 
   useEffect(() => {
     if (id) {
@@ -31,6 +40,11 @@ const MoviePage = () => {
           setMovieDetails(moviedata);
         })
         .catch((error) => console.log(error));
+
+      fetchRecommendedMovies(id, 1)
+        .then((movies) => setRecommendedMovies(movies || []))
+        .catch((error) => console.log(error));
+
     }
   }, [id]);
 
@@ -38,7 +52,6 @@ const MoviePage = () => {
     <BaseLayout>
       {movieDetails && (
         <Container maxW="container.lg" mt={4}>
-          
           <Iframe
             url={`https://vidsrc.me/embed/${id}`}
             width="100%"
@@ -50,6 +63,31 @@ const MoviePage = () => {
           <Box mt={4}>
             <MovieCardDetails movieData={movieDetails} />
           </Box>
+
+          {recommendedMovies.length > 0 && (
+            <>
+              <Divider my={6} />
+              <Box>
+                <Heading as="h2" size="lg" mb={4}>
+                  Recommended Movies
+                </Heading>
+                <SimpleGrid spacing={4} templateColumns='repeat(auto-fill, minmax(200px, 1fr))'>
+                  {recommendedMovies.map((movie: any) => (
+                    <MovieCard
+                      key={movie.id}
+                      movieId={movie.id}
+                      movieTitle={movie.title}
+                      movieOverview={movie.overview}
+                      moviePosterPath={movie.poster_path}
+                      onClick={() => {
+                        onClick(movie.id, movie.title);
+                      }}
+                    />
+                  ))}
+                </SimpleGrid>
+              </Box>
+            </>
+          )}
         </Container>
       )}
     </BaseLayout>
