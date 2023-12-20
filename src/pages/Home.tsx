@@ -1,10 +1,9 @@
 import React from 'react';
-import { Flex } from 'antd';
 import { fetchLatestMovies } from '../Functions.ts';
 import MovieCard from '../components/MovieCard.tsx';
 import { useNavigate } from 'react-router-dom';
 import BaseLayout from './BaseLayout.tsx';
-import { HStack, SimpleGrid } from '@chakra-ui/react';
+import { SimpleGrid } from '@chakra-ui/react';
 
 
 const Home = () => {
