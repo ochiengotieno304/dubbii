@@ -1,9 +1,10 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Box, Container } from "@chakra-ui/react";
 import Iframe from "react-iframe";
 import BaseLayout from "./BaseLayout";
 import { fetchMovieDetails } from "../Functions";
-import MovieCard from "./MovieCard";
+import MovieCardDetails from "./MovieCardrDetails";
 
 const MoviePage = () => {
   const { id } = useParams<{ id: string }>();
@@ -36,21 +37,20 @@ const MoviePage = () => {
   return (
     <BaseLayout>
       {movieDetails && (
-        <>
+        <Container maxW="container.lg" mt={4}>
+          
           <Iframe
             url={`https://vidsrc.me/embed/${id}`}
-            width={'1000'}
-            height={'500'}
-            allow="accelerometer;
-            autoplay;
-            clipboard-write;
-            encrypted-media;
-            gyroscope;
-            picture-in-picture full"
+            width="100%"
+            height="500px"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            title={`${movieDetails.title}`}
           />
 
-          <MovieCard movieData={movieDetails} />
-        </>
+          <Box mt={4}>
+            <MovieCardDetails movieData={movieDetails} />
+          </Box>
+        </Container>
       )}
     </BaseLayout>
   );

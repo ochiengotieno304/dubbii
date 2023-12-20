@@ -1,46 +1,55 @@
-// import { Card } from 'antd';
 import { Link } from 'react-router-dom';
-import { Card, CardBody, Stack, Heading, Text, Divider, CardFooter, ButtonGroup, Button } from '@chakra-ui/react';
-import { Image } from '@chakra-ui/react';
-
-
+import {
+  Card,
+  CardBody,
+  Stack,
+  Heading,
+  Text,
+  CardFooter,
+  Button,
+  Image
+} from '@chakra-ui/react';
 
 interface MovieCardProps {
-  movieTitle: any;
-  moviePosterPath: any;
-  movieOverview: any;
-  movieId: any;
-  onClick: any;
+  movieTitle: string;
+  movieOverview: string;
+  moviePosterPath: string;
+  movieId: string;
+  onClick: () => void;
 }
 
 const MovieCard = ({ movieTitle, movieOverview, moviePosterPath, onClick, movieId }: MovieCardProps) => {
+  const movieSlug = movieTitle.replace(/\s+/g, '-').toLowerCase();
+
   return (
-    <Card maxW='sm' onClick={onClick} w={"240"} align={"center"}>
+    <Card maxW='sm' onClick={onClick} cursor="pointer" borderRadius="md" overflow="hidden">
+      <Image src={`https://image.tmdb.org/t/p/w500${moviePosterPath}`} alt={movieTitle} borderRadius='md' />
+
       <CardBody>
-        <Image
-          src={`https://image.tmdb.org/t/p/w500${moviePosterPath}`}
-          alt='Green double couch with wooden legs'
-          borderRadius='lg'
-        />
-        <Stack mt='6' spacing='3'>
-          <Heading size='md'>{movieTitle}</Heading>
-          <Text>
+        <Stack spacing='2'>
+          <Heading as='h2' size='md'>
+            {movieTitle}
+          </Heading>
+          <Text fontSize='sm' color='gray.500'>
             {movieOverview.substring(0, 100) + '...'}
           </Text>
         </Stack>
       </CardBody>
-      <Divider />
+
       <CardFooter>
-        <ButtonGroup spacing='2'>
-          <Link to={`/movie/${movieId}`}>
-            <Button variant='solid' colorScheme='blue'>
-              Watch Now
-            </Button>
-          </Link>
-        </ButtonGroup>
+        <Button
+          as={Link}
+          to={`/movie/${movieId}/${movieSlug}`}
+          variant='solid'
+          colorScheme='blue'
+          w='100%'
+          borderRadius='none'
+        >
+          Watch Now
+        </Button>
       </CardFooter>
     </Card>
   );
-}
+};
 
 export default MovieCard;

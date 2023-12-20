@@ -1,6 +1,7 @@
 import { Layout, Menu, MenuProps } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Box } from '@chakra-ui/react';
 
 const { Header, Content, Footer } = Layout;
 const items = [
@@ -19,8 +20,7 @@ const items = [
     label: 'Top IMDB',
     url: '/',
   },
-
-]
+];
 
 
 interface BaseLayoutProps {
@@ -28,21 +28,20 @@ interface BaseLayoutProps {
 }
 
 const BaseLayout = (props: BaseLayoutProps) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [current, setCurrent] = useState('1');
-  const [path, setPath] = useState(window.location.pathname)
+  const [path, setPath] = useState(window.location.pathname);
 
   useEffect(() => {
-    const selectedItem = items.find(item => item.key === current);
-    setPath(selectedItem?.url ?? '/')
-    console.log('current', path)
-  }, [current, path]);
+    const selectedItem = items.find((item) => item.key === current);
+    setPath(selectedItem?.url ?? '/');
+  }, [current]);
 
   const onClick: MenuProps['onClick'] = (e) => {
-    console.log('click ', e);
     setCurrent(e.key);
-    navigate(path)
+    navigate(path);
   };
+
   return (
     <Layout>
       <Header
@@ -65,10 +64,11 @@ const BaseLayout = (props: BaseLayoutProps) => {
           style={{ flex: 1, minWidth: 0 }}
         />
       </Header>
-      <Content style={{ padding: '5vw' }}>
-        {props.children}
-
-      </Content>
+      <Box p={"16px 10% 16px 10%"} alignContent={'center'}>
+        <Content style={{ padding: '5vw' }}>
+          {props.children}
+        </Content>
+      </Box>
       <Footer style={{ textAlign: 'center' }}>dubbii</Footer>
     </Layout>
   );

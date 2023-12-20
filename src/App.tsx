@@ -4,6 +4,7 @@ import ErrorPage from './pages/ErrorPage.tsx';
 import Home from './pages/Home.tsx';
 import MoviePage from './pages/MoviePage.tsx';
 import { ChakraProvider } from '@chakra-ui/react'
+import theme from './theme.ts';
 
 const App: React.FC = () => {
   const router = createBrowserRouter(
@@ -17,7 +18,7 @@ const App: React.FC = () => {
   )
 
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <RouterProvider router={router} />
     </ChakraProvider>
   );

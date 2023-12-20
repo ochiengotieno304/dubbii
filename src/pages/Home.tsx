@@ -33,10 +33,9 @@ const Home = () => {
             movieOverview={movie.overview}
             moviePosterPath={movie.poster_path}
             onClick={() => {
-              console.log('clicked')
               onClick(movie.id, movie.title)
-            }
-            }
+              console.log('clicked')
+            }}
           />
         ))}
       </SimpleGrid>

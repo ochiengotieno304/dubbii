@@ -1,13 +1,20 @@
-import { Layout, Image, Row, Col } from "antd";
-import moment from "moment";
-const { Content } = Layout;
-const style: React.CSSProperties = { padding: '16px 0 ' };
+import { Layout } from "antd";
+import {
+    Card,
+    Image,
+    Stack,
+    CardBody,
+    Text,
+    Heading
+} from '@chakra-ui/react';
 
-interface MovieCardProps {
+import moment from "moment";
+
+interface MovieCardDetailsProps {
     movieData: any;
 }
 
-const MovieCard = ({
+const MovieCardDetails = ({
     movieData: {
         title,
         overview,
@@ -19,25 +26,29 @@ const MovieCard = ({
         country,
         languages
     }
-}: MovieCardProps) => {
+}: MovieCardDetailsProps) => {
     return (
         <Layout>
-            <Content>
-                <Row>
-                    <Col >
-                        <div style={style}>
-                            <h1>{title}</h1>
-                            <Image
-                                src={`https://image.tmdb.org/t/p/w500${poster}`}
-                                alt="movie backdrop"
-                                width={200}
-                            />
-                        </div>
-                    </Col>
-                    <Col>
-                        <div style={{ ...style, padding: '16px' }} >
-                            <p>{overview}</p>
+            <Card
+                direction={{ base: 'column', sm: 'row' }}
+                overflow={'hidden'}
+                variant={'outline'}>
+                <Image
+                    objectFit='cover'
+                    maxW={{ base: '100%', sm: '200px' }}
+                    src={`https://image.tmdb.org/t/p/w500/${poster}`}
+                    alt='Movie Poster'
+                />
 
+                <Stack>
+                    <CardBody>
+                        <Heading size='md'>{title}</Heading>
+
+                        <Text py='2'>
+                            {overview}
+                        </Text>
+
+                        <div>
                             Genre: {
                                 genres.map((genre: any) => {
                                     return (
@@ -76,13 +87,12 @@ const MovieCard = ({
                             <p>Rating: {rating}</p>
 
                         </div>
-                    </Col>
+                    </CardBody>
+                </Stack>
+            </Card>
 
-                </Row>
-
-            </Content>
         </Layout>
     )
 }
 
-export default MovieCard;
+export default MovieCardDetails;
