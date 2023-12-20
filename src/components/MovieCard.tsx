@@ -29,7 +29,7 @@ const MovieCard = ({ movieTitle, movieOverview, moviePosterPath, onClick, movieI
     //     <Meta title={movieTitle} description={movieOverview.substring(0, 100) + '...'} />
     // </Card>
 
-    <Card maxW='sm' onClick={onClick} w={"240"}>
+    <Card maxW='sm' onClick={onClick} w={"240"} align={"center"}>
       <CardBody>
         <Image
           src={`https://image.tmdb.org/t/p/w500${moviePosterPath}`}
