@@ -24,21 +24,30 @@ const RatingStars: React.FC<RatingStarsProps> = ({
     lg: 'w-6 h-6',
   };
 
+  // Correct, complete path for a 5-point star
+  const fullStarPath = "M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 4.81 8.63 2 9.24l5.46 4.73L5.82 21z";
+  // Path for the left half of the full star
+  const halfStarPath = "M12 17.27V2L4.81 8.63 2 9.24l5.46 4.73L5.82 21L12 17.27z";
+  // Path for an empty/outline star (outer path M inner path)
+  const emptyStarPath = "M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z";
+
+
   return (
     <div className="flex items-center">
       {[...Array(fullStars)].map((_, i) => (
         <svg key={`full-${i}`} className={`${starSizeClasses[size]} text-secondary fill-current`} viewBox="0 0 24 24">
-          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2z" />
+          <path d={fullStarPath} />
         </svg>
       ))}
       {halfStar && (
         <svg className={`${starSizeClasses[size]} text-secondary fill-current`} viewBox="0 0 24 24">
-          <path d="M12 15.4V6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4zM20.45 9.24l-7.19-.62L12 2 10.74 8.62l-7.19.62 5.46 4.73-1.64 7.03L12 17.27V2z" />
+          <path d={halfStarPath} />
         </svg>
       )}
       {[...Array(Math.max(0, emptyStars))].map((_, i) => (
         <svg key={`empty-${i}`} className={`${starSizeClasses[size]} text-gray-300 dark:text-slate-500 fill-current`} viewBox="0 0 24 24">
-          <path d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z" />
+          {/* The emptyStarPath creates an outline effect when filled due to its M path1 M path2 structure with default fill-rule */}
+          <path d={emptyStarPath} />
         </svg>
       ))}
     </div>

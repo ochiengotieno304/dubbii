@@ -1,10 +1,12 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { browseMedia } from '../services/mediaService';
 import { MediaItem, Filters, Genre, MediaType } from '../types';
 import MediaGrid from '../components/MediaGrid';
 import { LoadingSpinner } from '../components/LoadingSpinner';
-import { GENRES_LIST, YEARS_LIST, RATINGS_LIST, ITEMS_PER_PAGE } from '../constants';
+import { GENRES_LIST, YEARS_LIST, RATINGS_LIST } from '../constants';
+import { useLayoutContext } from '../contexts/LayoutContext'; // Import context hook
 
 const FilterPanel: React.FC<{
   currentFilters: Filters;
@@ -13,23 +15,26 @@ const FilterPanel: React.FC<{
   const [internalFilters, setInternalFilters] = useState<Filters>(currentFilters);
 
   useEffect(() => {
-    setInternalFilters(currentFilters);
+    // Exclude sort-related filters from being directly controlled by the panel for now
+    const { sort, min_votes, ...displayableFilters } = currentFilters;
+    setInternalFilters(displayableFilters);
   }, [currentFilters]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     const newFilters = {
-      ...internalFilters,
+      ...internalFilters, // Keep existing panel-controlled filters
       [name]: value === '' ? undefined : (name === 'year' || name === 'rating' ? parseInt(value) : value),
     };
     setInternalFilters(newFilters);
-    onFilterChange(newFilters);
+    // Pass back only the panel-controlled filters, sort/min_votes are from URL
+    onFilterChange(newFilters); 
   };
   
   const handleReset = () => {
-    const resetFilters = {};
+    const resetFilters = {}; // Resets only panel-controlled filters
     setInternalFilters(resetFilters);
-    onFilterChange(resetFilters);
+    onFilterChange(resetFilters); // This will trigger a URL update without sort/min_votes if they are not re-added
   };
 
   const selectBaseClasses = "w-full p-2.5 bg-gray-50 dark:bg-gray-700/70 text-neutral dark:text-gray-200 border border-gray-300 dark:border-gray-600/50 rounded-lg focus:ring-2 focus:ring-offset-1 dark:focus:ring-offset-gray-800 focus:ring-secondary focus:border-secondary text-sm transition-shadow focus:shadow-md";
@@ -76,7 +81,7 @@ const FilterPanel: React.FC<{
         <div className="flex items-end">
             <button 
                 onClick={handleReset}
-                className="w-full p-2.5 bg-secondary text-white rounded-lg hover:bg-amber-300 dark:hover:bg-amber-300 focus:ring-2 focus:ring-offset-1 dark:focus:ring-offset-amber-800 focus:hover:bg-amber-500 transition-all duration-200 active:scale-95 transform text-sm font-medium"
+                className="w-full p-2.5 bg-accent text-white rounded-lg hover:bg-blue-500 dark:hover:bg-blue-700 focus:ring-2 focus:ring-offset-1 dark:focus:ring-offset-gray-800 focus:ring-blue-500 transition-all duration-200 active:scale-95 transform text-sm font-medium"
             >
                 Reset Filters
             </button>
@@ -175,6 +180,7 @@ const Pagination: React.FC<{
 };
 
 const BrowsePage: React.FC = () => {
+  const { isSidebarOpen } = useLayoutContext(); // Consume context
   const [searchParams, setSearchParams] = useSearchParams();
   const [mediaItems, setMediaItems] = useState<MediaItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -182,7 +188,7 @@ const BrowsePage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [filters, setFilters] = useState<Filters>({});
-  const [pageTitle, setPageTitle] = useState('Browse All');
+  const [pageTitle, setPageTitle] = useState('Browse Media');
 
   const updateFiltersFromParams = useCallback(() => {
     const newFilters: Filters = {};
@@ -191,21 +197,29 @@ const BrowsePage: React.FC = () => {
     if (searchParams.get('genre')) newFilters.genre = searchParams.get('genre')!;
     if (searchParams.get('year')) newFilters.year = parseInt(searchParams.get('year')!);
     if (searchParams.get('rating')) newFilters.rating = parseInt(searchParams.get('rating')!);
+    
+    const sortParam = searchParams.get('sort');
+    if (sortParam === 'top_rated') newFilters.sort = sortParam;
+    const minVotesParam = searchParams.get('min_votes');
+    if (minVotesParam) newFilters.min_votes = parseInt(minVotesParam);
+
     const pageParam = parseInt(searchParams.get('page') || '1');
     
     setFilters(newFilters);
     setCurrentPage(pageParam);
 
+    // Update Page Title
     const searchQuery = searchParams.get('search');
     if (searchQuery) {
         setPageTitle(`Search: "${searchQuery}"`);
+    } else if (newFilters.sort === 'top_rated') {
+        setPageTitle(newFilters.type === 'tv' ? 'Top Rated TV Shows' : 'Top Rated Movies');
     } else if (newFilters.type === 'movie') {
         setPageTitle('Browse Movies');
     } else if (newFilters.type === 'tv') {
         setPageTitle('Browse TV Shows');
-    }
-     else {
-        setPageTitle('Browse All Media');
+    } else {
+        setPageTitle('Browse All Media'); // Default when no specific type or sort=top_rated
     }
   }, [searchParams]);
 
@@ -219,10 +233,8 @@ const BrowsePage: React.FC = () => {
       setIsLoading(true);
       setError(null);
       try {
-        // const currentSearchQuery = searchParams.get('search'); // Search functionality is not directly integrated into browseMedia filter
         const activeFilters = {...filters}; 
-
-        const data = await browseMedia(activeFilters, currentPage, ITEMS_PER_PAGE);
+        const data = await browseMedia(activeFilters, currentPage);
         setMediaItems(data.results);
         setTotalPages(data.totalPages);
       } catch (err) {
@@ -234,19 +246,27 @@ const BrowsePage: React.FC = () => {
     };
 
     fetchItems();
-  }, [filters, currentPage, searchParams]); 
+  }, [filters, currentPage]); 
 
-  const handleFilterChange = (newFilters: Filters) => {
+  const handleFilterChange = (panelFilters: Filters) => {
     const params = new URLSearchParams();
-    if (newFilters.type) params.set('type', newFilters.type);
-    if (newFilters.genre) params.set('genre', newFilters.genre);
-    if (newFilters.year) params.set('year', String(newFilters.year));
-    if (newFilters.rating) params.set('rating', String(newFilters.rating));
-    params.set('page', '1'); 
+    // Apply panel filters
+    if (panelFilters.type) params.set('type', panelFilters.type);
+    if (panelFilters.genre) params.set('genre', panelFilters.genre);
+    if (panelFilters.year) params.set('year', String(panelFilters.year));
+    if (panelFilters.rating) params.set('rating', String(panelFilters.rating));
     
+    // Preserve sort and min_votes from current URL if they exist, as panel doesn't control them
+    const currentSort = searchParams.get('sort');
+    if (currentSort) params.set('sort', currentSort);
+    const currentMinVotes = searchParams.get('min_votes');
+    if (currentMinVotes) params.set('min_votes', currentMinVotes);
+
+    // Preserve search query if it exists
     const currentSearchQuery = searchParams.get('search');
     if(currentSearchQuery) params.set('search', currentSearchQuery);
-
+    
+    params.set('page', '1'); 
     setSearchParams(params);
   };
 
@@ -254,7 +274,6 @@ const BrowsePage: React.FC = () => {
     const params = new URLSearchParams(searchParams);
     params.set('page', String(page));
     setSearchParams(params);
-    // Scroll to top of media grid might be nice here
     document.getElementById('main-content')?.scrollTo(0, 0);
   };
   
@@ -270,7 +289,7 @@ const BrowsePage: React.FC = () => {
         <p className="text-center text-red-500 dark:text-red-400 text-xl py-10">{error}</p>
       ) : mediaItems.length > 0 ? (
         <>
-          <MediaGrid items={mediaItems} />
+          <MediaGrid items={mediaItems} isSidebarOpen={isSidebarOpen} />
           <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
         </>
       ) : (

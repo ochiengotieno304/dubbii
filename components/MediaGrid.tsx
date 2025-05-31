@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { MediaItem } from '../types';
 import MediaCard from './MediaCard';
@@ -5,13 +6,22 @@ import MediaCard from './MediaCard';
 interface MediaGridProps {
   items: MediaItem[];
   isLoading?: boolean;
+  isSidebarOpen?: boolean; // New prop
 }
 
-const MediaGrid: React.FC<MediaGridProps> = ({ items, isLoading }) => {
+const MediaGrid: React.FC<MediaGridProps> = ({ items, isLoading, isSidebarOpen = true }) => {
+  // Determine grid layout classes based on sidebar state
+  const gridLayoutClasses = isSidebarOpen
+    ? 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5' // Sidebar open
+    : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'; // Sidebar closed
+
+  // Adjust skeleton item count to roughly fill two rows on larger screens for both states
+  const skeletonItemCount = isSidebarOpen ? 10 : 12;
+
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-        {Array.from({ length: 10 }).map((_, index) => (
+      <div className={`grid ${gridLayoutClasses} gap-6`}>
+        {Array.from({ length: skeletonItemCount }).map((_, index) => (
           <div key={index} className="bg-primary dark:bg-gray-800 rounded-lg shadow-xl animate-pulse">
             <div className="aspect-[2/3] bg-gray-200 dark:bg-gray-700 rounded-t-lg"></div>
             <div className="p-4">
@@ -31,7 +41,7 @@ const MediaGrid: React.FC<MediaGridProps> = ({ items, isLoading }) => {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+    <div className={`grid ${gridLayoutClasses} gap-6`}>
       {items.map((item) => (
         <MediaCard key={`${item.type}-${item.id}`} media={item} />
       ))}

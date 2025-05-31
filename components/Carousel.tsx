@@ -15,16 +15,25 @@ const CarouselSlide: React.FC<{ item: MediaItem; isActive: boolean }> = ({ item,
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   useEffect(() => {
-    setIsImageLoaded(false);
-  }, [item.id]);
-  
+    // Check if the image is already cached
+    const imageUrl = item.backdropPath || DEFAULT_CAROUSEL_IMAGE_PLACEHOLDER;
+    const img = new Image();
+    img.src = imageUrl;
+
+    if (img.complete) {
+      setIsImageLoaded(true);
+    } else {
+      setIsImageLoaded(false);
+    }
+  }, [item.backdropPath]);
+
   return (
     <div className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${isActive ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}>
       <div className="relative w-full h-full">
         {!isImageLoaded && (
           <div className="absolute inset-0 w-full h-full bg-gray-300 dark:bg-gray-700 animate-pulse flex items-center justify-center">
-             <img src={DEFAULT_CAROUSEL_IMAGE_PLACEHOLDER} alt="Loading backdrop" className="w-full h-full object-cover opacity-30" />
-             <LoadingSpinner size="md" color="text-gray-500 dark:text-gray-400" />
+            <img src={DEFAULT_CAROUSEL_IMAGE_PLACEHOLDER} alt="Loading backdrop" className="w-full h-full object-cover opacity-30" />
+            <LoadingSpinner size="md" color="text-gray-500 dark:text-gray-400" />
           </div>
         )}
         <img
@@ -36,8 +45,8 @@ const CarouselSlide: React.FC<{ item: MediaItem; isActive: boolean }> = ({ item,
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/10"></div>
         <div className="absolute bottom-0 left-0 p-6 md:p-10 lg:p-16 text-white w-full md:w-3/4 lg:w-2/3 xl:w-1/2">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4 line-clamp-2 shadow-black/50" style={{textShadow: '1px 1px 3px rgba(0,0,0,0.7)'}}>{item.title}</h2>
-          <p className="text-xs sm:text-sm md:text-base text-gray-200 mb-4 md:mb-6 line-clamp-2 md:line-clamp-3" style={{textShadow: '1px 1px 2px rgba(0,0,0,0.5)'}}>{item.overview}</p>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4 line-clamp-2 shadow-black/50" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.7)' }}>{item.title}</h2>
+          <p className="text-xs sm:text-sm md:text-base text-gray-200 mb-4 md:mb-6 line-clamp-2 md:line-clamp-3" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>{item.overview}</p>
           <Link
             to={`/media/${item.type}/${item.id}`}
             className="bg-secondary text-gray-900 hover:bg-amber-300 focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-black/50 font-bold py-2.5 px-5 md:py-3 md:px-7 rounded-lg text-sm md:text-base transition-all duration-300 ease-in-out inline-block shadow-lg hover:shadow-xl active:scale-95 transform"
@@ -115,8 +124,8 @@ export const Carousel: React.FC<CarouselProps> = ({ items, isLoading, error, aut
           <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
         </svg>
       </button>
-      
-       <div className="absolute bottom-4 md:bottom-6 left-1/2 transform -translate-x-1/2 z-20 flex space-x-2.5">
+
+      <div className="absolute bottom-4 md:bottom-6 left-1/2 transform -translate-x-1/2 z-20 flex space-x-2.5">
         {items.map((_, index) => (
           <button
             key={`dot-${index}`}

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { HashRouter } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { WatchLaterProvider } from './contexts/WatchLaterContext'; // Added
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -14,7 +15,9 @@ root.render(
   <React.StrictMode>
     <HashRouter>
       <ThemeProvider>
-        <App />
+        <WatchLaterProvider> {/* Added */}
+          <App />
+        </WatchLaterProvider> {/* Added */}
       </ThemeProvider>
     </HashRouter>
   </React.StrictMode>

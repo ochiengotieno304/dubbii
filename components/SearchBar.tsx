@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { searchMedia } from '../services/mediaService';
-import { MediaItem } from '../types';
+import { MediaItem, PaginatedResponse } from '../types';
 import useDebounce from '../hooks/useDebounce';
 import { LoadingSpinner } from './LoadingSpinner';
 import { DEFAULT_SEARCH_THUMB_PLACEHOLDER } from '../constants';
@@ -19,7 +19,7 @@ const SuggestionItem: React.FC<SuggestionItemProps> = ({ item, onClick, isHighli
 
   useEffect(() => {
     setIsImageLoaded(false); // Reset on item change
-  }, [item.id]);
+  }, [item.id, item.type]); // Added item.type in case ID is not unique across types
 
   useEffect(() => {
     if (isHighlighted && ref.current) {
@@ -54,7 +54,7 @@ const SuggestionItem: React.FC<SuggestionItemProps> = ({ item, onClick, isHighli
       <div>
         <p className="font-medium text-sm text-neutral dark:text-gray-100 line-clamp-1">{item.title}</p>
         <p className="text-xs text-gray-500 dark:text-gray-400">
-          {item.type === 'movie' ? 'Movie' : 'TV Show'} ({item.releaseDate.substring(0,4)})
+          {item.type === 'movie' ? 'Movie' : 'TV Show'} {item.releaseDate ? `(${item.releaseDate.substring(0,4)})` : ''}
         </p>
       </div>
     </div>
@@ -67,7 +67,7 @@ const SearchBar: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
-  const debouncedQuery = useDebounce(query, 300); // Slightly faster debounce
+  const debouncedQuery = useDebounce(query, 300);
   const navigate = useNavigate();
   const searchContainerRef = useRef<HTMLDivElement>(null);
 
@@ -78,8 +78,9 @@ const SearchBar: React.FC = () => {
     }
     setIsLoading(true);
     try {
-      const results = await searchMedia(searchQuery);
-      setSuggestions(results);
+      // searchMedia now returns PaginatedResponse<MediaItem>
+      const response: PaginatedResponse<MediaItem> = await searchMedia(searchQuery, 1);
+      setSuggestions(response.results.slice(0,10)); // Take top 10 for suggestions dropdown
     } catch (error) {
       console.error('Failed to fetch search suggestions:', error);
       setSuggestions([]);
@@ -145,7 +146,7 @@ const SearchBar: React.FC = () => {
     <div className="relative w-full" ref={searchContainerRef}>
       <form onSubmit={handleSearchSubmit} className="flex items-center" role="search">
         <input
-          type="search" // Use type="search" for better semantics and clear button on some browsers
+          type="search" 
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => setIsFocused(true)}
@@ -177,8 +178,8 @@ const SearchBar: React.FC = () => {
           {isLoading && <div className="p-4 flex justify-center"><LoadingSpinner size="sm"/></div>}
           {!isLoading && suggestions.map((item, index) => (
             <SuggestionItem 
-              key={item.id}
-              id={`suggestion-${index}`} // For aria-activedescendant
+              key={`${item.type}-${item.id}`}
+              id={`suggestion-${index}`} 
               item={item} 
               onClick={() => handleSelectSuggestion(item)} 
               isHighlighted={index === highlightedIndex}

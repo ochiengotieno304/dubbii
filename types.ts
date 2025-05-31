@@ -76,4 +76,6 @@ export interface Filters {
   year?: number;
   rating?: number;
   type?: MediaType;
+  sort?: 'popularity.desc' | 'release_date.desc' | 'vote_average.desc' | 'top_rated'; // Added 'top_rated'
+  min_votes?: number; // Added for minimum vote count
 }

@@ -1,8 +1,10 @@
 import { Genre } from './types';
 
-// Note: API_IMAGE_BASE_URL was 'https://image.tmdb.org/t/p/' but is currently unused
-// as mock data uses full picsum.photos URLs. If switching to relative paths from TMDB,
-// this would be used with size suffixes (e.g., w500, original).
+export const TMDB_API_BASE_URL = 'https://api.themoviedb.org/3';
+export const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/';
+
+// Note: API_IMAGE_BASE_URL is now TMDB_IMAGE_BASE_URL and is used for TMDB images.
+// Local mock data might still use full picsum.photos URLs.
 
 export const GENRES_LIST: Genre[] = [
   { id: 28, name: 'Action' },
@@ -24,16 +26,26 @@ export const GENRES_LIST: Genre[] = [
   { id: 53, name: 'Thriller' },
   { id: 10752, name: 'War' },
   { id: 37, name: 'Western' },
+  // Additional TMDB TV genres (some might overlap or be new)
+  { id: 10759, name: 'Action & Adventure' }, // Often used for TV
+  { id: 10762, name: 'Kids' },
+  { id: 10763, name: 'News' },
+  { id: 10764, name: 'Reality' },
+  { id: 10765, name: 'Sci-Fi & Fantasy' }, // Often used for TV
+  { id: 10766, name: 'Soap' },
+  { id: 10767, name: 'Talk' },
+  { id: 10768, name: 'War & Politics' },
 ];
+
 
 export const YEARS_LIST: number[] = Array.from({ length: 50 }, (_, i) => new Date().getFullYear() - i);
 
 export const RATINGS_LIST: number[] = Array.from({ length: 10 }, (_, i) => 10 - i);
 
-export const ITEMS_PER_PAGE = 20;
+export const ITEMS_PER_PAGE = 20; // TMDB default is 20
 
-export const DEFAULT_CAROUSEL_IMAGE_PLACEHOLDER = 'https://via.placeholder.com/1280x720/CCCCCC/969696?text=Loading...';
-export const DEFAULT_POSTER_PLACEHOLDER = 'https://via.placeholder.com/200x300/CCCCCC/969696?text=N/A';
-export const DEFAULT_PROFILE_PLACEHOLDER = 'https://via.placeholder.com/150x225/CCCCCC/969696?text=N/A';
-export const DEFAULT_SEARCH_THUMB_PLACEHOLDER = 'https://via.placeholder.com/40x60/CCCCCC/969696?text=N/A';
-export const DEFAULT_EPISODE_STILL_PLACEHOLDER = 'https://via.placeholder.com/640x360/CCCCCC/969696?text=No+Still';
+export const DEFAULT_CAROUSEL_IMAGE_PLACEHOLDER = 'https://placehold.co/1280x720/CCCCCC/969696?text=Loading....';
+export const DEFAULT_POSTER_PLACEHOLDER = 'https://placehold.co/200x300/CCCCCC/969696?text=Poster';
+export const DEFAULT_PROFILE_PLACEHOLDER = 'https://placehold.co/150x225/CCCCCC/969696?text=Profile';
+export const DEFAULT_SEARCH_THUMB_PLACEHOLDER = 'https://placehold.co/40x60/CCCCCC/969696?text=Search+Thumb';
+export const DEFAULT_EPISODE_STILL_PLACEHOLDER = 'https://placehold.co/640x360/CCCCCC/969696?text=No+Still';
