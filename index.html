@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior: smooth;">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>dubbii - Movie & TV Show Explorer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class', // Enabled class-based dark mode
+      theme: {
+        extend: {
+          colors: {
+            // Light Theme Defaults
+            'primary': '#FFFFFF',      // White (e.g., card/nav backgrounds)
+            'secondary': '#FBBF24',    // Amber (accent)
+            'accent': '#3B82F6',        // Blue (actions)
+            'neutral': '#374151',      // Gray-700 (primary text)
+            'base-100': '#F9FAFB',      // Gray-50 (main page background)
+            'base-content': '#1F2937',  // Gray-800 (default text on base-100)
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          borderRadius: {
+            'xl': '0.75rem', // Tailwind's default lg
+            '2xl': '1rem',   // Tailwind's default xl
+            '3xl': '1.5rem', // Larger rounding
+          },
+          boxShadow: {
+            'inner-lg': 'inset 0 2px 4px 0 rgba(0,0,0,0.1)',
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    /* Ensure SVGs in buttons scale with text size and fill with current color or a specific color */
+    .icon-button svg {
+      width: 1.25em; 
+      height: 1.25em;
+      /* fill: currentColor; Removed to allow explicit fill/stroke classes */
+    }
+    /* General focus style for accessibility - can be refined per component */
+    *:focus-visible {
+        outline: 2px solid tailwind.config.theme.extend.colors.secondary; /* Amber outline */
+        outline-offset: 2px;
+        box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.3); /* Subtle amber glow */
+    }
+    /* Remove default outline for elements that have custom focus-visible */
+    *:focus {
+        outline: none;
+    }
+    @keyframes modalShowAnim {
+      0% { transform: scale(0.95); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+<script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.6.1",
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react": "https://esm.sh/react@^19.1.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="font-sans">
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
