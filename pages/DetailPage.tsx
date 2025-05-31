@@ -555,13 +555,13 @@ const DetailPage: React.FC = () => {
             <p>dubbii respects the intellectual property rights of others and expects its users to do the same. All content displayed on this site is sourced from third-party providers and is not hosted on our servers.</p>
             <p>If you believe that your copyrighted work has been copied in a way that constitutes copyright infringement and is accessible on this site, please use the button below to submit a report. Provide all necessary information for us to investigate your claim.</p>
              <button
-                onClick={() => setIsReportModalOpen(true)}
-                className="mt-4 px-5 py-2 sm:px-6 sm:py-2.5 bg-accent text-white font-semibold rounded-lg shadow-md hover:bg-blue-500 dark:hover:bg-blue-700 focus:ring-2 focus:ring-offset-1 dark:focus:ring-offset-gray-800 focus:ring-blue-500 transition-all duration-200 active:scale-95 transform inline-flex items-center space-x-2 text-sm sm:text-base"
+              onClick={() => setIsReportModalOpen(true)}
+              className="mt-4 px-5 py-2 sm:px-6 sm:py-2.5 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-500 dark:hover:bg-red-700 focus:ring-2 focus:ring-offset-1 dark:focus:ring-offset-gray-800 focus:ring-red-500 transition-all duration-200 active:scale-95 transform inline-flex items-center space-x-2 text-sm sm:text-base"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 3v1.5M3 21v-6m0 0 2.77-.693a9 9 0 0 1 6.208.682l.108.054a9 9 0 0 0 6.086.71l3.114-.732a48.524 48.524 0 0 1-.005-10.499l-3.11.732a9 9 0 0 1-6.085-.711l-.108-.054a9 9 0 0 0-6.208-.682L3 4.5M3 15V4.5" />
-                </svg>
-                <span>Report Infringement</span>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 3v1.5M3 21v-6m0 0 2.77-.693a9 9 0 0 1 6.208.682l.108.054a9 9 0 0 0 6.086.71l3.114-.732a48.524 48.524 0 0 1-.005-10.499l-3.11.732a9 9 0 0 1-6.085-.711l-.108-.054a9 9 0 0 0-6.208-.682L3 4.5M3 15V4.5" />
+              </svg>
+              <span>Report Infringement</span>
               </button>
             <p className="text-xs mt-2">Upon receiving a valid DMCA notice through our reporting form, we will take whatever action, in our sole discretion, we deem appropriate, including removal of the challenged content from the site if verified.</p>
           </div>

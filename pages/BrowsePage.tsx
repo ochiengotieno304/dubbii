@@ -80,11 +80,11 @@ const FilterPanel: React.FC<{
         </div>
         <div className="flex items-end">
             <button 
-                onClick={handleReset}
-                className="w-full p-2.5 bg-accent text-white rounded-lg hover:bg-blue-500 dark:hover:bg-blue-700 focus:ring-2 focus:ring-offset-1 dark:focus:ring-offset-gray-800 focus:ring-blue-500 transition-all duration-200 active:scale-95 transform text-sm font-medium"
-            >
-                Reset Filters
-            </button>
+                    onClick={handleReset}
+                    className="w-full p-2.5 bg-secondary text-gray rounded-lg hover:bg-amber-300 dark:hover:bg-amber-200 focus:ring-2 focus:ring-offset-1 dark:focus:ring-offset-gray-800 focus:ring-amber-500 transition-all duration-200 active:scale-95 transform text-sm font-medium hover:text-gray-900 dark:text-gray-800 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Reset Filters
+                  </button>
         </div>
       </div>
     </div>
