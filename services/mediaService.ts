@@ -281,14 +281,40 @@ export const searchMedia = async (query: string, page: number = 1): Promise<Pagi
 
   if (TMDB_API_KEY) {
     try {
+      // First, search for movies
       const movieData = await fetchTMDB('search/movie', { query, page, language: 'en-US', include_adult: false });
       const movieResults = movieData.results.map(tmdbMovieToMediaItem);
 
+      // Then, search for TV shows
+      const tvData = await fetchTMDB('search/tv', { query, page, language: 'en-US', include_adult: false });
+      const tvResults = tvData.results.map(tmdbTVToMediaItem);
+
+      // Combine the results
+      let combinedResults: MediaItem[] = [];
+      let movieIndex = 0;
+      let tvIndex = 0;
+
+      // Mix movies and tv shows, prioritizing tv shows at the top
+      while (tvIndex < tvResults.length || movieIndex < movieResults.length) {
+        if (tvIndex < tvResults.length) {
+          combinedResults.push(tvResults[tvIndex]);
+          tvIndex++;
+        }
+        if (movieIndex < movieResults.length) {
+          combinedResults.push(movieResults[movieIndex]);
+          movieIndex++;
+        }
+      }
+
+      // Calculate total results and pages (approximate, as TMDB returns separate counts)
+      const totalResults = movieData.total_results + tvData.total_results;
+      const totalPages = Math.min(Math.ceil(totalResults / ITEMS_PER_PAGE), 500);
+
       return {
-        page: movieData.page,
-        results: movieResults,
-        totalPages: Math.min(movieData.total_pages, 500),
-        totalResults: movieData.total_results,
+        page: movieData.page, // Or tvData.page, as they should be the same
+        results: combinedResults,
+        totalPages: totalPages,
+        totalResults: totalResults,
       };
     } catch (error) {
       console.error('Error searching TMDB:', error);
