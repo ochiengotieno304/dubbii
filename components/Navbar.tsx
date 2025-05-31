@@ -83,11 +83,32 @@ const Navbar: React.FC = () => {
             className="text-secondary text-3xl md:text-4xl font-extrabold hover:text-amber-300 transition-colors duration-300 flex-shrink-0 tracking-tight"
             aria-label="dubbii Homepage"
           >
-            Dubbii
+            dubbii
           </Link>
 
-
           <div className="flex items-center space-x-2 md:space-x-4">
+            <div className="hidden md:flex items-center space-x-1">
+              <Link
+                to="/"
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200
+                ${checkIsActive(location, '/', undefined)
+                    ? 'bg-secondary/20 text-secondary dark:bg-secondary/30 dark:text-amber-300'
+                    : 'text-neutral dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-secondary dark:hover:text-secondary'
+                  }`}
+              >
+                Home
+              </Link>
+              <Link
+                to="/browse"
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200
+                ${checkIsActive(location, '/browse', undefined)
+                    ? 'bg-secondary/20 text-secondary dark:bg-secondary/30 dark:text-amber-300'
+                    : 'text-neutral dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-secondary dark:hover:text-secondary'
+                  }`}
+              >
+                Browse
+              </Link>
+            </div>
             <div className="w-full max-w-[150px] sm:max-w-xs md:w-64 lg:w-72"> {/* Adjusted width for mobile */}
               <SearchBar />
             </div>
