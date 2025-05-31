@@ -14,9 +14,9 @@ const VideoPlayer: React.FC<{ src: string | null; title: string | null }> = ({ s
     return (
       <div className="aspect-video w-full bg-primary dark:bg-gray-800/50 rounded-xl shadow-xl flex items-center justify-center border border-gray-200 dark:border-gray-700">
         <div className="text-center p-4">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12 text-gray-400 dark:text-gray-500 mx-auto mb-3">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
-            </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12 text-gray-400 dark:text-gray-500 mx-auto mb-3">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z" />
+          </svg>
           <p className="text-gray-500 dark:text-gray-400 text-sm md:text-base">
             {title ? `Player for ${title} will appear here.` : 'Select an episode to play or player not available.'}
           </p>
@@ -67,7 +67,7 @@ const TrailerEmbed: React.FC<{ trailerKey?: string, title: string }> = ({ traile
 
 const CastMemberCard: React.FC<{ member: CastMember }> = ({ member }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-  const placeholderText = member.name.split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase();
+  const placeholderText = member.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
 
   useEffect(() => {
     setIsImageLoaded(false);
@@ -107,24 +107,24 @@ const CastList: React.FC<{ cast: CastMember[] }> = ({ cast }) => {
   );
 };
 
-const ReviewCard: React.FC<{ review: Review }> = ({review}) => {
- return (
+const ReviewCard: React.FC<{ review: Review }> = ({ review }) => {
+  return (
     <div className="bg-gray-50 dark:bg-gray-800 p-4 md:p-5 rounded-xl shadow-lg transition-shadow hover:shadow-xl">
-        <div className="flex items-center mb-2.5">
+      <div className="flex items-center mb-2.5">
         <div className="w-10 h-10 rounded-full bg-secondary text-gray-900 flex items-center justify-center font-bold text-lg mr-3">
-            {review.author.substring(0,1).toUpperCase()}
+          {review.author.substring(0, 1).toUpperCase()}
         </div>
         <div>
-            <h4 className="font-semibold text-neutral dark:text-gray-100">{review.author}</h4>
-            {review.rating && <RatingStars rating={review.rating} maxRating={10} totalStars={5} size="sm" />}
+          <h4 className="font-semibold text-neutral dark:text-gray-100">{review.author}</h4>
+          {review.rating && <RatingStars rating={review.rating} maxRating={10} totalStars={5} size="sm" />}
         </div>
-        </div>
-        <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">{review.content}</p>
-        <p className="text-xs text-gray-500 dark:text-gray-400 mt-3 text-right">
+      </div>
+      <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">{review.content}</p>
+      <p className="text-xs text-gray-500 dark:text-gray-400 mt-3 text-right">
         Posted: {new Date(review.createdAt).toLocaleDateString()}
-        </p>
+      </p>
     </div>
- );
+  );
 };
 
 const ReviewList: React.FC<{ reviews: Review[] }> = ({ reviews }) => {
@@ -138,11 +138,11 @@ const ReviewList: React.FC<{ reviews: Review[] }> = ({ reviews }) => {
   );
 };
 
-const SectionTitle: React.FC<{children: React.ReactNode, className?: string, icon?: React.ReactNode}> = ({children, className = "", icon}) => (
-    <div className={`flex items-center mb-6 ${className}`}>
-      {icon && <span className="mr-3 text-secondary">{icon}</span>}
-      <h2 className={`text-xl sm:text-2xl md:text-3xl font-bold text-neutral dark:text-gray-100 border-l-4 border-secondary pl-3 sm:pl-4 py-1`}>{children}</h2>
-    </div>
+const SectionTitle: React.FC<{ children: React.ReactNode, className?: string, icon?: React.ReactNode }> = ({ children, className = "", icon }) => (
+  <div className={`flex items-center mb-6 ${className}`}>
+    {icon && <span className="mr-3 text-secondary">{icon}</span>}
+    <h2 className={`text-xl sm:text-2xl md:text-3xl font-bold text-neutral dark:text-gray-100 border-l-4 border-secondary pl-3 sm:pl-4 py-1`}>{children}</h2>
+  </div>
 );
 
 const EpisodeStill: React.FC<{ stillPath?: string; title: string }> = ({ stillPath, title }) => {
@@ -177,7 +177,7 @@ const SeasonsAndEpisodes: React.FC<{
     const sortedNumberedSeasons = seasons.filter(s => s.seasonNumber > 0).sort((a, b) => a.seasonNumber - b.seasonNumber);
     const allSortedSeasons = [...seasons].sort((a, b) => a.seasonNumber - b.seasonNumber);
     return sortedNumberedSeasons.length > 0 ? sortedNumberedSeasons[0].seasonNumber :
-           (allSortedSeasons.length > 0 ? allSortedSeasons[0].seasonNumber : 1);
+      (allSortedSeasons.length > 0 ? allSortedSeasons[0].seasonNumber : 1);
   }, [seasons]);
 
   const [selectedSeasonNumber, setSelectedSeasonNumber] = useState<number>(getInitialSeasonNumber());
@@ -196,7 +196,7 @@ const SeasonsAndEpisodes: React.FC<{
 
   useEffect(() => {
     if (currentSeason && currentSeason.episodes && currentSeason.episodes.length > 0) {
-      const sortedEpisodes = [...currentSeason.episodes].sort((a,b) => a.episodeNumber - b.episodeNumber);
+      const sortedEpisodes = [...currentSeason.episodes].sort((a, b) => a.episodeNumber - b.episodeNumber);
       setSelectedEpisode(sortedEpisodes[0]);
     } else {
       setSelectedEpisode(null);
@@ -205,11 +205,12 @@ const SeasonsAndEpisodes: React.FC<{
 
   useEffect(() => {
     if (selectedEpisode && tvShowId) {
-        setEpisodePlayerUrl(`https://vidsrc.xyz/embed/tv/${tvShowId}/${selectedEpisode.seasonNumber}-${selectedEpisode.episodeNumber}`);
-        setEpisodePlayerTitle(`${mediaTitle} S${selectedEpisode.seasonNumber} E${selectedEpisode.episodeNumber}: ${selectedEpisode.title}`);
+
+      setEpisodePlayerUrl(`https://multiembed.mov/?video_id=${tvShowId}&tmdb=1&s=${selectedEpisode.seasonNumber}&e=${selectedEpisode.episodeNumber}`);
+      setEpisodePlayerTitle(`${mediaTitle} S${selectedEpisode.seasonNumber} E${selectedEpisode.episodeNumber}: ${selectedEpisode.title}`);
     } else {
-        setEpisodePlayerUrl(null);
-        setEpisodePlayerTitle(mediaTitle || "TV Show Episode");
+      setEpisodePlayerUrl(null);
+      setEpisodePlayerTitle(mediaTitle || "TV Show Episode");
     }
   }, [selectedEpisode, tvShowId, mediaTitle]);
 
@@ -244,14 +245,14 @@ const SeasonsAndEpisodes: React.FC<{
 
       {currentSeason ? (
         <div
-            id={`season-content-${currentSeason.seasonNumber}`}
-            role="tabpanel"
-            aria-labelledby={`season-tab-${currentSeason.seasonNumber}`}
-            className="md:flex md:space-x-6"
+          id={`season-content-${currentSeason.seasonNumber}`}
+          role="tabpanel"
+          aria-labelledby={`season-tab-${currentSeason.seasonNumber}`}
+          className="md:flex md:space-x-6"
         >
           <div className="md:w-1/3 lg:w-1/4 mb-6 md:mb-0 max-h-[300px] sm:max-h-[400px] md:max-h-[calc(var(--player-aspect-ratio,0.5625)*80vh+100px)] lg:max-h-[calc(var(--player-aspect-ratio,0.5625)*70vh+100px)] overflow-y-auto pr-2 space-y-1.5 custom-scrollbar">
             {currentSeason.episodes && currentSeason.episodes.length > 0 ? (
-                currentSeason.episodes.sort((a,b) => a.episodeNumber - b.episodeNumber).map(episode => (
+              currentSeason.episodes.sort((a, b) => a.episodeNumber - b.episodeNumber).map(episode => (
                 <button
                   key={episode.id}
                   onClick={() => setSelectedEpisode(episode)}
@@ -274,31 +275,31 @@ const SeasonsAndEpisodes: React.FC<{
           </div>
 
           <div className="md:w-2/3 lg:w-3/4">
-             <VideoPlayer src={episodePlayerUrl} title={episodePlayerTitle} />
+            <VideoPlayer src={episodePlayerUrl} title={episodePlayerTitle} />
             {selectedEpisode ? (
-              <div className="bg-primary dark:bg-gray-800 p-4 md:p-6 rounded-b-xl shadow-xl mt-0"> 
-                <h4 className="text-lg sm:text-xl font-semibold text-neutral dark:text-gray-100 mt-0 mb-1"> 
+              <div className="bg-primary dark:bg-gray-800 p-4 md:p-6 rounded-b-xl shadow-xl mt-0">
+                <h4 className="text-lg sm:text-xl font-semibold text-neutral dark:text-gray-100 mt-0 mb-1">
                   S{selectedEpisode.seasonNumber} E{selectedEpisode.episodeNumber}: {selectedEpisode.title}
                 </h4>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
                   Air Date: {selectedEpisode.airDate ? new Date(selectedEpisode.airDate).toLocaleDateString() : 'N/A'}
                   {selectedEpisode.voteAverage && selectedEpisode.voteAverage > 0 && (
-                      <span className="ml-3">Rating: {selectedEpisode.voteAverage.toFixed(1)}/10</span>
+                    <span className="ml-3">Rating: {selectedEpisode.voteAverage.toFixed(1)}/10</span>
                   )}
                 </p>
                 <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{selectedEpisode.overview}</p>
               </div>
             ) : (
               <div className="bg-primary dark:bg-gray-800 p-6 rounded-b-xl shadow-xl mt-0 flex items-center justify-center min-h-[150px]">
-                 <p className="text-gray-600 dark:text-gray-400 text-center">
-                    {currentSeason.episodes && currentSeason.episodes.length > 0 ? "Select an episode to see details." : "No episodes available for this season."}
+                <p className="text-gray-600 dark:text-gray-400 text-center">
+                  {currentSeason.episodes && currentSeason.episodes.length > 0 ? "Select an episode to see details." : "No episodes available for this season."}
                 </p>
               </div>
             )}
           </div>
         </div>
       ) : (
-         <p className="text-gray-600 dark:text-gray-400 p-6 text-center">Select a season to view episodes.</p>
+        <p className="text-gray-600 dark:text-gray-400 p-6 text-center">Select a season to view episodes.</p>
       )}
     </div>
   );
@@ -327,7 +328,7 @@ const DetailPage: React.FC = () => {
 
 
   useEffect(() => {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     setIsPosterLoaded(false);
     setMediaDetails(null);
     setSimilarMedia([]);
@@ -349,12 +350,11 @@ const DetailPage: React.FC = () => {
         const details = await getMediaDetails(id, type as MediaType);
         if (details) {
           setMediaDetails(details);
-           // Check watch later status after details are fetched
+          // Check watch later status after details are fetched
           setIsInWatchLater(watchLaterItems.some(item => item.id === details.id && item.type === details.type));
 
           if (details.type === 'movie') {
-            // For movies, use the direct TMDB ID for vidsrc.xyz
-            setPlayerEmbedUrl(`https://vidsrc.xyz/embed/movie/${details.id}`);
+            setPlayerEmbedUrl(`https://multiembed.mov/?video_id=${details.id}&tmdb=1`);
             setPlayerEmbedTitle(details.title);
           } else if (details.type === 'tv' && details.seasons && details.seasons.length > 0) {
             // For TV shows, initial player URL set in SeasonsAndEpisodes component
@@ -411,15 +411,15 @@ const DetailPage: React.FC = () => {
 
   if (error || !mediaDetails) {
     return (
-        <div className="text-center py-10 md:py-20 px-4">
-            <p className="text-xl text-red-500 dark:text-red-400 mb-6">{error || 'Media details not available.'}</p>
-            <Link
-                to="/"
-                className="px-6 py-3 bg-secondary text-gray-900 font-semibold rounded-lg shadow-md hover:bg-amber-400 transition-colors duration-300 text-lg"
-            >
-                Go to Homepage
-            </Link>
-        </div>
+      <div className="text-center py-10 md:py-20 px-4">
+        <p className="text-xl text-red-500 dark:text-red-400 mb-6">{error || 'Media details not available.'}</p>
+        <Link
+          to="/"
+          className="px-6 py-3 bg-secondary text-gray-900 font-semibold rounded-lg shadow-md hover:bg-amber-400 transition-colors duration-300 text-lg"
+        >
+          Go to Homepage
+        </Link>
+      </div>
     );
   }
 
@@ -435,7 +435,7 @@ const DetailPage: React.FC = () => {
           style={{ backgroundImage: `url(${mediaDetails.backdropPath})` }}
           aria-hidden="true"
         >
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-base-100/30 dark:via-slate-800/30 to-base-100 dark:to-slate-800"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-base-100/30 dark:via-slate-800/30 to-base-100 dark:to-slate-800"></div>
         </div>
       )}
       <div className="relative z-0 pt-4 sm:pt-8 md:pt-12">
@@ -444,7 +444,7 @@ const DetailPage: React.FC = () => {
             <div className="relative w-full aspect-[2/3] rounded-xl shadow-2xl overflow-hidden bg-gray-200 dark:bg-gray-700">
               {!isPosterLoaded && (
                 <div className="absolute inset-0 w-full h-full animate-pulse flex items-center justify-center">
-                    <svg className="w-12 h-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                  <svg className="w-12 h-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                 </div>
               )}
               <img
@@ -469,7 +469,7 @@ const DetailPage: React.FC = () => {
               {mediaDetails.type === 'tv' && mediaDetails.numberOfSeasons && <span className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">{mediaDetails.numberOfSeasons} Season(s)</span>}
             </div>
 
-            <div className="mb-3 md:mb-4"> 
+            <div className="mb-3 md:mb-4">
               {mediaDetails.genres.map((genre: Genre) => (
                 <span key={genre.id} className="inline-block bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs sm:text-sm px-2.5 py-1 sm:px-3 rounded-full mr-1.5 mb-1.5 font-medium">{genre.name}</span>
               ))}
@@ -492,17 +492,17 @@ const DetailPage: React.FC = () => {
             </button>
 
             <div className="mb-6">
-                <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900 dark:text-white mt-0 mb-2">Overview</h3> 
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm md:text-base">{mediaDetails.overview}</p>
+              <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900 dark:text-white mt-0 mb-2">Overview</h3>
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm md:text-base">{mediaDetails.overview}</p>
             </div>
           </div>
         </div>
 
         {mediaDetails.type === 'movie' && (
-             <section className="my-8 md:my-12">
-                <SectionTitle>Watch Now</SectionTitle>
-                <VideoPlayer src={playerEmbedUrl} title={playerEmbedTitle} />
-            </section>
+          <section className="my-8 md:my-12">
+            <SectionTitle>Watch Now</SectionTitle>
+            <VideoPlayer src={playerEmbedUrl} title={playerEmbedTitle} />
+          </section>
         )}
 
         {mediaDetails.trailerKey && (
@@ -516,9 +516,9 @@ const DetailPage: React.FC = () => {
           <section className="my-8 md:my-12">
             <SectionTitle>Seasons & Episodes</SectionTitle>
             <SeasonsAndEpisodes
-                seasons={mediaDetails.seasons}
-                tvShowId={mediaDetails.id}
-                mediaTitle={mediaDetails.title}
+              seasons={mediaDetails.seasons}
+              tvShowId={mediaDetails.id}
+              mediaTitle={mediaDetails.title}
             />
           </section>
         )}
@@ -534,18 +534,18 @@ const DetailPage: React.FC = () => {
         </section>
 
         {similarMedia.length > 0 && (
-            <section className="my-8 md:my-12">
-                <SectionTitle>Similar {mediaDetails.type === 'movie' ? 'Movies' : 'TV Shows'}</SectionTitle>
-                {isLoadingSimilar ? (
-                     <div className="flex justify-center py-10 min-h-[200px] items-center">
-                        <LoadingSpinner size="md" />
-                     </div>
-                ) : errorSimilar ? (
-                    <p className="text-center text-red-500 dark:text-red-400">{errorSimilar}</p>
-                ) : (
-                    <MediaGrid items={similarMedia} />
-                )}
-            </section>
+          <section className="my-8 md:my-12">
+            <SectionTitle>Similar {mediaDetails.type === 'movie' ? 'Movies' : 'TV Shows'}</SectionTitle>
+            {isLoadingSimilar ? (
+              <div className="flex justify-center py-10 min-h-[200px] items-center">
+                <LoadingSpinner size="md" />
+              </div>
+            ) : errorSimilar ? (
+              <p className="text-center text-red-500 dark:text-red-400">{errorSimilar}</p>
+            ) : (
+              <MediaGrid items={similarMedia} />
+            )}
+          </section>
         )}
 
 
@@ -554,15 +554,15 @@ const DetailPage: React.FC = () => {
           <div className="prose prose-sm dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 space-y-3">
             <p>dubbii respects the intellectual property rights of others and expects its users to do the same. All content displayed on this site is sourced from third-party providers and is not hosted on our servers.</p>
             <p>If you believe that your copyrighted work has been copied in a way that constitutes copyright infringement and is accessible on this site, please use the button below to submit a report. Provide all necessary information for us to investigate your claim.</p>
-             <button
+            <button
               onClick={() => setIsReportModalOpen(true)}
               className="mt-4 px-5 py-2 sm:px-6 sm:py-2.5 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-500 dark:hover:bg-red-700 focus:ring-2 focus:ring-offset-1 dark:focus:ring-offset-gray-800 focus:ring-red-500 transition-all duration-200 active:scale-95 transform inline-flex items-center space-x-2 text-sm sm:text-base"
-              >
+            >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 3v1.5M3 21v-6m0 0 2.77-.693a9 9 0 0 1 6.208.682l.108.054a9 9 0 0 0 6.086.71l3.114-.732a48.524 48.524 0 0 1-.005-10.499l-3.11.732a9 9 0 0 1-6.085-.711l-.108-.054a9 9 0 0 0-6.208-.682L3 4.5M3 15V4.5" />
               </svg>
               <span>Report Infringement</span>
-              </button>
+            </button>
             <p className="text-xs mt-2">Upon receiving a valid DMCA notice through our reporting form, we will take whatever action, in our sole discretion, we deem appropriate, including removal of the challenged content from the site if verified.</p>
           </div>
         </section>
