@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { MediaItem } from '../types';
 import { LoadingSpinner } from './LoadingSpinner';
 import { DEFAULT_CAROUSEL_IMAGE_PLACEHOLDER } from '../constants';
+import { useWatchLater } from '../contexts/WatchLaterContext';
 
 interface CarouselProps {
   items: MediaItem[];
@@ -13,6 +14,18 @@ interface CarouselProps {
 
 const CarouselSlide: React.FC<{ item: MediaItem; isActive: boolean }> = ({ item, isActive }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const { watchLaterItems, addToWatchLater, removeFromWatchLater } = useWatchLater();
+  const isInWatchLater = watchLaterItems.some(media => media.id === item.id && media.type === item.type);
+
+  const handleToggleWatchLater = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isInWatchLater) {
+      removeFromWatchLater(item.id, item.type);
+    } else {
+      addToWatchLater(item);
+    }
+  };
 
   useEffect(() => {
     // Check if the image is already cached
@@ -44,16 +57,34 @@ const CarouselSlide: React.FC<{ item: MediaItem; isActive: boolean }> = ({ item,
           className={`w-full h-full object-cover transition-opacity duration-700 ease-in-out ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/10"></div>
-        {/* Adjusted padding and text sizes for mobile */}
         <div className="absolute bottom-0 left-0 p-4 sm:p-6 md:p-10 lg:p-16 text-white w-full md:w-3/4 lg:w-2/3 xl:w-1/2">
           <h2 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 md:mb-4 line-clamp-2 shadow-black/50" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.7)' }}>{item.title}</h2>
           <p className="text-xs sm:text-sm md:text-base text-gray-200 mb-3 sm:mb-4 md:mb-6 line-clamp-2 md:line-clamp-3" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>{item.overview}</p>
-          <Link
-            to={`/media/${item.type}/${item.id}`}
-            className="bg-secondary text-gray-900 hover:bg-amber-300 focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-black/50 font-bold py-2 px-4 sm:py-2.5 sm:px-5 md:py-3 md:px-7 rounded-lg text-xs sm:text-sm md:text-base transition-all duration-300 ease-in-out inline-block shadow-lg hover:shadow-xl active:scale-95 transform"
-          >
-            View Details
-          </Link>
+          <div className="flex space-x-4">
+            <Link
+              to={`/media/${item.type}/${item.id}`}
+              className="bg-secondary text-gray-900 hover:bg-amber-300 focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-black/50 font-bold py-2 px-4 sm:py-2.5 sm:px-5 md:py-3 md:px-7 rounded-lg text-xs sm:text-sm md:text-base transition-all duration-300 ease-in-out inline-block shadow-lg hover:shadow-xl active:scale-95 transform flex items-center space-x-2"
+            >
+              <span>View Details</span>
+            </Link>
+            <button
+              onClick={handleToggleWatchLater}
+              title={isInWatchLater ? "Remove from Watch Later" : "Add to Watch Later"}
+              aria-label={isInWatchLater ? "Remove from Watch Later" : "Add to Watch Later"}
+              aria-pressed={isInWatchLater}
+              className={`bg-gray-700/60 hover:bg-gray-900/80 dark:bg-gray-600/70 dark:hover:bg-gray-500/90 text-white focus:ring-2 focus:ring-gray-500 font-bold py-2 px-4 sm:py-2.5 sm:px-5 md:py-3 md:px-7 rounded-lg text-xs sm:text-sm md:text-base transition-all duration-300 ease-in-out inline-block shadow-lg hover:shadow-xl active:scale-95 transform flex items-center space-x-2
+                ${isInWatchLater ? 'bg-secondary hover:bg-amber-400 text-gray-900 focus:ring-amber-500' : ''}`}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+                {isInWatchLater ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                )}
+              </svg>
+              <span>{isInWatchLater ? 'Remove from Watch Later' : 'Add to Watch Later'}</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
