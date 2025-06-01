@@ -1,10 +1,12 @@
-
 <!DOCTYPE html>
 <html lang="en" style="scroll-behavior: smooth;">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>dubbii - Movie & TV Show</title>
+  <link rel="icon" href="/assets/web/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/public/assets/web/apple-touch-icon.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -42,28 +44,41 @@
     body {
       transition: background-color 0.3s ease, color 0.3s ease;
     }
+
     /* Ensure SVGs in buttons scale with text size and fill with current color or a specific color */
     .icon-button svg {
-      width: 1.25em; 
+      width: 1.25em;
       height: 1.25em;
       /* fill: currentColor; Removed to allow explicit fill/stroke classes */
     }
+
     /* General focus style for accessibility - can be refined per component */
     *:focus-visible {
-        outline: 2px solid tailwind.config.theme.extend.colors.secondary; /* Amber outline */
-        outline-offset: 2px;
-        box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.3); /* Subtle amber glow */
+      outline: 2px solid tailwind.config.theme.extend.colors.secondary;
+      /* Amber outline */
+      outline-offset: 2px;
+      box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.3);
+      /* Subtle amber glow */
     }
+
     /* Remove default outline for elements that have custom focus-visible */
     *:focus {
-        outline: none;
+      outline: none;
     }
+
     @keyframes modalShowAnim {
-      0% { transform: scale(0.95); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
+      0% {
+        transform: scale(0.95);
+        opacity: 0;
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
     }
   </style>
-<script type="importmap">
+  <script type="importmap">
 {
   "imports": {
     "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
@@ -73,10 +88,12 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
+  <link rel="stylesheet" href="/index.css">
 </head>
+
 <body class="font-sans">
   <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>
+
 </html>

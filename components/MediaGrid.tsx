@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { MediaItem } from '../types';
 import MediaCard from './MediaCard';
@@ -13,8 +12,8 @@ const MediaGrid: React.FC<MediaGridProps> = ({ items, isLoading, isSidebarOpen =
   // Determine grid layout classes based on sidebar state
   // Base: 2 columns, sm: 3 columns, md: 3 (sidebar open) or 4 (sidebar closed), etc.
   const gridLayoutClasses = isSidebarOpen
-    ? 'grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5' // Sidebar open
-    : 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'; // Sidebar closed
+    ? 'grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-6' // Sidebar open
+    : 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-6'; // Sidebar closed
 
   // Adjust skeleton item count to roughly fill two/three rows on smaller screens for both states
   const skeletonItemCount = 6;
@@ -22,8 +21,8 @@ const MediaGrid: React.FC<MediaGridProps> = ({ items, isLoading, isSidebarOpen =
   if (isLoading) {
     return (
       <div className={`grid ${gridLayoutClasses} gap-4 md:gap-6`}> {/* Adjusted gap for potentially smaller cards */}
-        {Array.from({ length: skeletonItemCount }).map((_, index) => (
-          <div key={index} className="bg-primary dark:bg-gray-800 rounded-lg shadow-xl animate-pulse">
+        {Array.from({ length: skeletonItemCount }).map(() => (
+          <div key={crypto.randomUUID()} className="bg-primary dark:bg-gray-800 rounded-lg shadow-xl animate-pulse">
             <div className="aspect-[2/3] bg-gray-200 dark:bg-gray-700 rounded-t-lg"></div>
             <div className="p-3 md:p-4"> {/* Adjusted padding */}
               <div className="h-5 md:h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-1.5 md:mb-2"></div>

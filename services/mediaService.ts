@@ -254,7 +254,7 @@ export const getPopularMoviesFromTMDB = async (page: number = 1): Promise<MediaI
   }
   try {
     const data = await fetchTMDB('movie/popular', { page, language: 'en-US' });
-    return data.results.map(tmdbMovieToMediaItem).slice(0, 10);
+    return data.results.map(tmdbMovieToMediaItem).slice(0, 12);
   } catch (error) {
     console.error('Error fetching popular movies from TMDB:', error);
     return [];
@@ -269,7 +269,7 @@ export const getTrendingTVShows = async (page: number = 1): Promise<MediaItem[]>
   }
   try {
     const data = await fetchTMDB('trending/tv/day', { page, language: 'en-US' });
-    return data.results.map(tmdbTVToMediaItem).slice(0, 10);
+    return data.results.map(tmdbTVToMediaItem).slice(0, 12);
   } catch (error) {
     console.error('Error fetching trending TV shows from TMDB:', error);
     return [];
@@ -381,7 +381,7 @@ export const getSimilarMedia = async (id: string, type: MediaType): Promise<Medi
       const endpoint = type === 'movie' ? `movie/${id}/similar` : `tv/${id}/similar`;
       const data = await fetchTMDB(endpoint, { language: 'en-US' });
       const transformer = type === 'movie' ? tmdbMovieToMediaItem : tmdbTVToMediaItem;
-      return data.results.slice(0, 5).map(transformer);
+      return data.results.slice(0, 6).map(transformer);
     } catch (error) {
       console.error(`Error fetching similar ${type}s for ${id} from TMDB:`, error);
       // Fall through to mock data if TMDB fetch fails but key was present

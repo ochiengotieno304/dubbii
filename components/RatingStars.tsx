@@ -24,12 +24,8 @@ const RatingStars: React.FC<RatingStarsProps> = ({
     lg: 'w-6 h-6',
   };
 
-  // Correct, complete path for a 5-point star
-  const fullStarPath = "M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 4.81 8.63 2 9.24l5.46 4.73L5.82 21z";
-  // Path for the left half of the full star
-  const halfStarPath = "M12 17.27V2L4.81 8.63 2 9.24l5.46 4.73L5.82 21L12 17.27z";
-  // Path for an empty/outline star (outer path M inner path)
-  const emptyStarPath = "M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z";
+  const fullStarPath = "M12 2.00004L14.545 9.52623L22 10.2624L16.2222 15.4131L17.6333 22L12 18.955L6.36668 22L7.77778 15.4131L2 10.2624L9.45452 9.52623L12 2.00004Z";
+  const emptyStarPath = "M12 2.00004L14.545 9.52623L22 10.2624L16.2222 15.4131L17.6333 22L12 18.955L6.36668 22L7.77778 15.4131L2 10.2624L9.45452 9.52623L12 2.00004ZM12 6.82759L10.4091 11.8841L5.06349 12.3413L8.63636 15.4731L7.71111 20.5754L12 18.2407L16.2889 20.5754L15.3636 15.4731L18.9365 12.3413L13.5909 11.8841L12 6.82759Z";
 
 
   return (
@@ -41,12 +37,19 @@ const RatingStars: React.FC<RatingStarsProps> = ({
       ))}
       {halfStar && (
         <svg className={`${starSizeClasses[size]} text-secondary fill-current`} viewBox="0 0 24 24">
-          <path d={halfStarPath} />
+          <defs>
+            <clipPath id="half-star-clip">
+              <rect x="0" y="0" width="12" height="24" />
+            </clipPath>
+          </defs>
+          {/* Full star path clipped to left half */}
+          <path d={fullStarPath} clipPath="url(#half-star-clip)" />
+          {/* Empty star as base layer */}
+          <path d={emptyStarPath} className="text-gray-300 dark:text-slate-500 fill-current" />
         </svg>
       )}
       {[...Array(Math.max(0, emptyStars))].map((_, i) => (
         <svg key={`empty-${i}`} className={`${starSizeClasses[size]} text-gray-300 dark:text-slate-500 fill-current`} viewBox="0 0 24 24">
-          {/* The emptyStarPath creates an outline effect when filled due to its M path1 M path2 structure with default fill-rule */}
           <path d={emptyStarPath} />
         </svg>
       ))}

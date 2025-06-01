@@ -52,7 +52,7 @@ const MediaCard: React.FC<MediaCardProps> = ({ media }) => {
   };
 
   return (
-    <div className="group bg-primary dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden transform hover:scale-105 hover:shadow-2xl focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-base-100 transition-all duration-300 ease-in-out flex flex-col h-full relative">
+    <div className="group bg-primary dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden transform hover:scale-105 hover:shadow-xl focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-base-100 transition-all duration-300 ease-in-out flex flex-col h-full relative">
       <Link
         to={`/media/${media.type}/${media.id}`}
         className="flex flex-col h-full"

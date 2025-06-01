@@ -18,8 +18,17 @@ const SuggestionItem: React.FC<SuggestionItemProps> = ({ item, onClick, isHighli
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setIsImageLoaded(false); // Reset on item change
-  }, [item.id, item.type]); // Added item.type in case ID is not unique across types
+    // Check if the image is already cached
+    const imageUrl = item.posterPath || DEFAULT_SEARCH_THUMB_PLACEHOLDER;
+    const img = new Image();
+    img.src = imageUrl;
+
+    if (img.complete) {
+      setIsImageLoaded(true);
+    } else {
+      setIsImageLoaded(false);
+    }
+  }, [item.posterPath]);
 
   useEffect(() => {
     if (isHighlighted && ref.current) {

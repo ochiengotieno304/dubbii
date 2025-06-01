@@ -72,8 +72,16 @@ const CastMemberCard: React.FC<{ member: CastMember }> = ({ member }) => {
   const placeholderText = member.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
 
   useEffect(() => {
-    setIsImageLoaded(false);
-  }, [member.id]);
+    const imageUrl = member.profilePath || DEFAULT_PROFILE_PLACEHOLDER;
+    const img = new Image();
+    img.src = imageUrl;
+
+    if (img.complete) {
+      setIsImageLoaded(true);
+    } else {
+      setIsImageLoaded(false);
+    }
+  }, [member.profilePath]);
 
   return (
     <div className="text-center group">

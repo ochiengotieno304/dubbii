@@ -83,7 +83,7 @@ const Navbar: React.FC = () => {
             className="text-secondary text-3xl md:text-4xl font-extrabold hover:text-amber-300 transition-colors duration-300 flex-shrink-0 tracking-tight"
             aria-label="dubbii Homepage"
           >
-            dubbii
+            <img src="/assets/web/icon-192.png" className="h-14" alt="dubbii logo" />
           </Link>
 
           <div className="flex items-center space-x-2 md:space-x-4">
