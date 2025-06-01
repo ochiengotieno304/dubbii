@@ -23,7 +23,7 @@ const MediaCard: React.FC<MediaCardProps> = ({ media }) => {
   };
 
   return (
-    <div className="group bg-primary dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden transform hover:scale-105 hover:shadow-xl focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-base-100 transition-all duration-300 ease-in-out flex flex-col h-full relative">
+    <div >
       <Link
         to={`/media/${media.type}/${media.id}`}
         className="flex flex-col h-full"
@@ -33,7 +33,7 @@ const MediaCard: React.FC<MediaCardProps> = ({ media }) => {
           <img
             src={media.posterPath || DEFAULT_POSTER_PLACEHOLDER}
             alt={media.title || 'Media poster'}
-            className="w-full h-full object-cover group-hover:opacity-90 transition-opacity duration-500 ease-in-out rounded-t-xl"
+            className="w-full h-full object-cover group-hover:opacity-90 transition-opacity duration-500 ease-in-out rounded-xl hover:opacity-60"
           />
           <div className="absolute top-2.5 left-2.5 bg-secondary text-gray-900 text-xs font-bold px-2.5 py-1 rounded-full shadow-sm">
             {media.type === 'movie' ? 'Movie' : 'TV Show'}
@@ -41,12 +41,9 @@ const MediaCard: React.FC<MediaCardProps> = ({ media }) => {
           <div className="absolute bottom-2 right-2 bg-secondary text-gray-900 text-xs font-bold px-2.5 py-1 rounded-full shadow-sm">
             {media.voteAverage.toFixed(1)}/10
           </div>
-          {/* <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-            <p className="text-sm text-white px-4 text-center">{media.overview}</p>
-          </div> */}
         </div>
-        <div className="p-4">
-          <h3 className="text-sm dark:text-gray-100 truncate" title={media.title}>
+        <div className="pt-2">
+          <h3 className="text-sm dark:text-gray-100 truncate hover:underline" title={media.title}>
             {media.title}
           </h3>
         </div>
