@@ -46,7 +46,7 @@ const MediaCard: React.FC<MediaCardProps> = ({ media }) => {
           </div> */}
         </div>
         <div className="p-4">
-          <h3 className="text-md font-semibold text-neutral dark:text-gray-100 truncate" title={media.title}>
+          <h3 className="text-sm dark:text-gray-100 truncate" title={media.title}>
             {media.title}
           </h3>
         </div>
