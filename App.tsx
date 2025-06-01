@@ -6,7 +6,8 @@ import DetailPage from './pages/DetailPage';
 import NotFoundPage from './pages/NotFoundPage';
 import Layout from './components/Layout';
 import RadioPage from './pages/RadioPage';
-import WatchLaterPage from './pages/WatchLaterPage'; // Import the new WatchLaterPage
+import WatchLaterPage from './pages/WatchLaterPage';
+import LiveSports from './pages/LiveSportsPage';
 
 const App: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ const App: React.FC = () => {
         <Route path="/media/:type/:id" element={<DetailPage />} />
         <Route path="/radio" element={<RadioPage />} />
         <Route path="/watch-later" element={<WatchLaterPage />} /> {/* Add route for WatchLaterPage */}
+        <Route path="/live-sports" element={<LiveSports />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Layout>

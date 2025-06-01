@@ -76,6 +76,19 @@ export const NAV_ITEMS = [
       </svg>
     ),
   },
+  {
+    name: 'Live Sports',
+    path: '/live-sports',
+    type: 'category' as const,
+    icon: (p: any) => (
+      <svg {...p} viewBox="0 0 24 24" fill="currentColor">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M2 12h20M12 2a10 10 0 010 20M4.22 4.22l15.56 15.56M4.22 19.78L19.78 4.22" stroke="white" strokeWidth="1.5" />
+      </svg>
+    ),
+  }
+
+
 ];
 
 
