@@ -23,7 +23,7 @@ const MediaCard: React.FC<MediaCardProps> = ({ media }) => {
   };
 
   return (
-    <div className="group bg-primary dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden transform focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-base-100 transition-all duration-300 ease-in-out flex flex-col h-full relative">
+    <div className="group overflow-hidden transform focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-base-100 transition-all duration-300 ease-in-out flex flex-col h-full relative">
       <Link
         to={`/media/${media.type}/${media.id}`}
         className="flex flex-col h-full"
@@ -33,7 +33,7 @@ const MediaCard: React.FC<MediaCardProps> = ({ media }) => {
           <img
             src={media.posterPath || DEFAULT_POSTER_PLACEHOLDER}
             alt={media.title || 'Media poster'}
-            className="w-full h-full object-cover group-hover:opacity-50 transition-opacity duration-500 ease-in-out rounded"
+            className="w-full h-full object-cover group-hover:opacity-50 transition-opacity duration-500 ease-in-out rounded-lg"
           />
           <div className="absolute top-2.5 left-2.5 bg-secondary text-gray-900 text-xs font-bold px-2.5 py-1 rounded-full shadow-sm">
             {media.type === 'movie' ? 'Movie' : 'TV Show'}
